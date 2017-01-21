@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
+import time
+import random
 import socket
+import requests
 import argparse
 from concurrent.futures import ThreadPoolExecutor
 
@@ -32,6 +35,21 @@ def scan_ports(host):
     available_ports.sort()
     print(str(len(available_ports)) + " ports available.")
     print(available_ports)
+
+def reverse()
+    for i in xrange(1,65535):
+        print 'Port %s' % i,
+
+        if i in [21,22,25,443,445]: # exclude standard ports
+            print "Skipping"
+            continue
+
+        result = requests.get("http://portquiz.net:%s" % i)
+
+        print result.status_code,result.reason
+        if not result.reason == "OK":
+            break
+        time.sleep(random.randint(1,5))
 
 def main():
     scan_ports(args.z)
