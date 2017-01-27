@@ -7,24 +7,33 @@ import os
 import sys
 import argparse
 
-parser = argparse.ArgumentParser(description='Test file generator')
-parser.add_argument('-p','--path', type=str,help='Target path to place the files in',action="store",required=True)
-args = parser.parse_args()
+def create_files(sizes = [ 1, 5, 10, 50, 100 ], units = [ 'k', 'm', 'g' ]):
+	'''Creates test files of given sizes'''
+	for unit in units:
+		for size in sizes:
+			data = {'current':''.join([str(size),unit]).zfill(4),'path':args.path}
+			print "--[ Creating Test file: %(current)s" % data
+			os.system( "mkfile -n %(current)s %(path)s/%(current)s.testfile" % data )
 
-if not os.path.exists(args.path):
-	os.mkdir(args.path)
-else:
-	print 'Path already exists, overwrite? (Y/N)'
-	if not raw_input() in ['y','Y']:
-		sys.exit(1)
+	return True
 
-sizes = [ 1, 5, 10, 50, 100 ]
-units = [ 'k', 'm', 'g' ]
+def validate_path(path):
+	'''Validates and creates a target path'''
+	if not os.path.exists(args.path):
+		os.mkdir(args.path)
+		return True
+	else:
+		print 'Path already exists, overwrite? (Y/N)'
+		if raw_input() in ['y','Y']:
+			return True
+		else:
+			return False
 
-for unit in units:
-	for size in sizes:
-		data = {'current':''.join([str(size),unit]).zfill(4),'path':args.path}
-		print "--[ Creating Test file: %(current)s" % data
-		# os.system( "mkfile -n %(current)s %(path)s/%(current)s.testfile" % data )
+if __name__ == '__main__':
+	parser = argparse.ArgumentParser(description='Test file generator')
+	parser.add_argument('-p','--path', type=str,help='Target path to place the files in',action="store",required=True)
+	args = parser.parse_args()
 
-print 'All done, files are in a subdirectory called "%s"'% args.path
+	if validate_path(args.path):
+		create_files()
+		print 'All done, files are in a subdirectory called "%s"'% args.path
