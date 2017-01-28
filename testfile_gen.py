@@ -5,6 +5,7 @@
 
 import os
 import sys
+import platform
 import argparse
 
 def create_files(sizes = [ 1, 5, 10, 50, 100 ], units = [ 'k', 'm', 'g' ]):
@@ -13,8 +14,10 @@ def create_files(sizes = [ 1, 5, 10, 50, 100 ], units = [ 'k', 'm', 'g' ]):
 		for size in sizes:
 			data = {'current':''.join([str(size),unit]).zfill(4),'path':args.path}
 			print "--[ Creating Test file: %(current)s" % data
-			os.system( "mkfile -n %(current)s %(path)s/%(current)s.testfile" % data )
-
+			if platform.system() == 'Darwin':
+				os.system( "mkfile -n %(current)s %(path)s/%(current)s.testfile" % data )
+			else:
+				print 'Unsupported OS'
 	return True
 
 def validate_path(path):
