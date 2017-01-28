@@ -9,12 +9,8 @@ import string
 import argparse
 
 parser = argparse.ArgumentParser(description='Password generator')
-parser.add_argument('-n', type=int,
-                    help='Length of Password',action="store")
+parser.add_argument('-n', type=int, help='Length of Password',action="store",required=True)
 args = parser.parse_args()
-if not args.n:
-	print parser.print_help()
-	sys.exit(1)
 
 symbols = [string.digits,string.letters,string.punctuation]
 
