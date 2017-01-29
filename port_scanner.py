@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+# Scans target for open ports.
+# usage: ./port_scanner.py -z 213.213.128.4
+
 import time
 import random
 import socket
@@ -36,7 +39,7 @@ def scan_ports(host):
     print(str(len(available_ports)) + " ports available.")
     print(available_ports)
 
-def reverse()
+def reverse():
     for i in xrange(1,65535):
         print 'Port %s' % i,
 
@@ -45,7 +48,6 @@ def reverse()
             continue
 
         result = requests.get("http://portquiz.net:%s" % i)
-
         print result.status_code,result.reason
         if not result.reason == "OK":
             break
