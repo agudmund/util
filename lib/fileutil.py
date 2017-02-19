@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 def size(num):
 	'''Basic byte to human conversion'''
 	unit = 'MB'
