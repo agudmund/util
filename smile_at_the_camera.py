@@ -35,6 +35,5 @@ try:
 except KeyboardInterrupt:
 	pass
 finally:
-	# Remove the sample listener when done
 	controller.remove_listener(listener)
 
