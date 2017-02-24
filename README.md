@@ -1,6 +1,9 @@
 # util
 Generic Utilities
 
+Add ./bin to $PATH (export PATH={install dir}/bin;$PATH)
+Add ./lib to $PYTHONPATH (export PYTHONPATH={install dir}/lib;$PYTHONPATH)
+
 ./compress_content.py
 --[ Compresses the current directory per file and applies a password to the archive
   | Usage: ./compress_content.py -f dpx -p password
