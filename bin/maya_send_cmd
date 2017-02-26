@@ -1,0 +1,33 @@
+#!/usr/bin/env python
+# *-* coding: utf-8 *-*
+
+# Usage: > maya_send_cmd polySphere\(\)
+#             {This creates a polySphere within an active Maya session from a standalone shell}
+
+import sys
+import socket
+
+class Connect( object ):
+    def __init__( self , port=4700 ):
+        self.port = port
+
+    def speak(self, cmd, maya=True):
+    	if maya:
+        	return 'python("maya.cmds.%s")'%cmd
+        else:
+        	return 'python("%s")'%cmd
+
+    def send( self , command='' ):
+
+        client = socket.socket( socket.AF_INET , socket.SOCK_STREAM )
+        client.connect( ( "127.0.0.1" , self.port ) )
+        client.send( command )
+
+        result = client.recv( 1024 )
+
+        return result
+
+if __name__ == '__main__':
+    c = Connect()
+    cmd = sys.argv[-1]
+    c.send(c.speak(cmd))
