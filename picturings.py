@@ -57,6 +57,11 @@ def watch_for_change(cur=None,last=None):
 		if last!=None:
 			diff(last,cur)
 
+def increase_brightness(pic,num):
+	pic[:,:,2] += num
+	pic[:,:,0] += num
+	pic[:,:,1] += num
+
 def finder_banner(cur=None,last=None):
 	'''Continously updates 10 photos in a folder, because, well, somebody has to animate Finder.'''
 
