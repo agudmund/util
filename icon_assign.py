@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Usage: ./icon.py file icon.png
+# Usage: ./icon.py -f file -i icon.png
 
 import Cocoa
 import argparse
