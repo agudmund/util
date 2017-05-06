@@ -4,7 +4,7 @@
 from steganography.steganography import Steganography
 import os
 
-def encrypt(root_path,count=0,text='')
+def encrypt(root_path,count=0,text=''):
 	targets = os.listdir(root_path)
 	for word in text.split():
 		for n in word:
