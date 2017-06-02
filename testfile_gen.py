@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 #
 # Basic test file generator (mac only)
-# Usage: ./testfile_gen.py
+# Usage:  ./testfile_gen.py -p {path to generate the test files in}
+#         ./testfile_gen.py -p targetpath
 
 import os
 import sys
@@ -10,21 +11,23 @@ import argparse
 
 def create_files(sizes = [ 1, 5, 10, 50, 100 ], units = [ 'K', 'M', 'G' ]):
 	'''Creates test files of given sizes'''
+
 	for unit in units:
 		for size in sizes:
 			data = {'current':''.join([str(size),unit]).zfill(4),'path':args.path}
 			print "--[ Creating Test file: %(current)s" % data
-			print '>>>>',data['byte']
 			if platform.system() == 'Darwin':
 				os.system( "mkfile -n %(current)s %(path)s/%(current)s.testfile" % data )
 			elif platform.system() == 'Linux':
 				os.system('fallocate -l %(current)s %(path)s/%(current)s.testfile' % data)
 			else:
 				print 'Unsupported OS'
+
 	return True
 
 def validate_path(path):
 	'''Validates and creates a target path'''
+
 	if not os.path.exists(args.path):
 
 		os.mkdir(args.path)
@@ -35,6 +38,7 @@ def validate_path(path):
 			return True
 		else:
 			return False
+
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Test file generator')
