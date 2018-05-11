@@ -8,26 +8,26 @@ import sys
 import socket
 
 class Connect( object ):
-    def __init__( self , port=4700 ):
-        self.port = port
+	def __init__( self , port=4700 ):
+		self.port = port
 
-    def speak(self, cmd, maya=True):
-    	if maya:
-        	return 'python("maya.cmds.%s")'%cmd
-        else:
-        	return 'python("%s")'%cmd
+	def speak(self, cmd, maya=True):
+		if maya:
+			return 'python("maya.cmds.%s")'%cmd
+		else:
+			return 'python("%s")'%cmd
 
-    def send( self , command='' ):
+	def send( self , command='' ):
 
-        client = socket.socket( socket.AF_INET , socket.SOCK_STREAM )
-        client.connect( ( "127.0.0.1" , self.port ) )
-        client.send( command )
+		client = socket.socket( socket.AF_INET , socket.SOCK_STREAM )
+		client.connect( ( "127.0.0.1" , self.port ) )
+		client.send( command )
 
-        result = client.recv( 1024 )
+		result = client.recv( 1024 )
 
-        return result
+		return result
 
 if __name__ == '__main__':
-    c = Connect()
-    cmd = sys.argv[-1]
-    c.send(c.speak(cmd))
+	c = Connect()
+	cmd = sys.argv[-1]
+	c.send(c.speak(cmd))

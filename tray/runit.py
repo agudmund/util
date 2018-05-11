@@ -1,5 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env C:\Python27\python.exe
 
+import os
+import random
 from SysTrayIcon import SysTrayIcon
 from pytube import YouTube
 from tubetest import Fetch
@@ -29,7 +31,6 @@ def list_menu_options(SysTrayIcon):
     content = SysTrayIcon.menu_options[int(category)][2][int(subcat)][2]
     for n in content:
         print n[0],n[3]
-        
 
 def last_ten(SysTrayIcon):
     history = [n for n in SysTrayIcon.menu_options[0][2][2][2]]
@@ -56,7 +57,19 @@ def RefreshHistory(sysTrayIcon):
     sysTrayIcon.refresh_icon()
     return True
 
+def theselings(sysTrayIcon):
+
+    root = r'C:\Users\normal\Projects'
+    content = os.listdir(root)
+    target = os.path.join(root,random.choice(content))
+
+    print target
+
+    os.system( 'explorer %s' % target )
+    return True
+
 menu_options =  (
+    ('PickIt',None,theselings),
     ('YouTube', None,   [
         ('Refresh History',None,RefreshHistory),
         ('All History', None, ( [(n[2],None,all_history) for n in this.youtube_history] ) ),
@@ -64,10 +77,7 @@ menu_options =  (
                         ]  ),
     ('Debug',None,(
         ('List menu Options',None,list_menu_options),('This',None,list_menu_options)
-
         ))
-
-
                 )
 
 SysTrayIcon('./Icons/Icon.ico','Utilitarian',menu_options,on_quit=exit, default_menu_index=1)
