@@ -61,11 +61,11 @@ def theselings(sysTrayIcon):
 
     root = r'C:\Users\normal\Projects'
     content = os.listdir(root)
-    target = os.path.join(root,random.choice(content))
+    target = r'%s'%os.path.join(root,random.choice(content))
 
-    print target
+    print (target)
 
-    os.system( 'explorer %s' % target )
+    os.system( 'explorer "%s"' % target )
     return True
 
 menu_options =  (
