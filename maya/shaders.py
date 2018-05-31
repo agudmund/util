@@ -1,9 +1,16 @@
+#!/usr/bin/env python
+# *-* coding:utf-8  *-*
+#
+#  Shader Minglings, some assembly required
+#    -If you don't know how to run this script, you probably shouldn't
+#
+#  -aeVar, 2018
 
 import os
 import sys
 import maya.cmds as cmds
 import maya.mel as mel
-from random import choice
+from random import choice,randint
 
 class Shader:
 	def __init__( self, path=None ):
@@ -30,8 +37,8 @@ class Shader:
 
 		return name
 
-	def createLambert(self, texture, alpha=True, prefix=''):
-		'''Creates a Lamber shader from texture file'''
+	def createShader(self, texture, shadertype='lambert', alpha=True, prefix=''):
+		'''Creates a shader from texture file'''
 
 		fullpath = os.path.join(self.sourcepath,texture)
 		texname = '%s%s' % ( prefix, self.cleanName( texture ) )
@@ -46,7 +53,7 @@ class Shader:
 		shadingGroup = cmds.sets( name='%s_SG' % texname, empty=True, renderable=True, noSurfaceShader=True )
 
 		# Create the shader, and connect the file node
-		shader = cmds.shadingNode( 'lambert', name="%s_lambert" % texname, asShader=True )
+		shader = cmds.shadingNode( shadertype, name="_".join([ texname, shadertype ]), asShader=True )
 		self.shaders.append( shader )
 		cmds.connectAttr( '%s.outColor' % shader, '%s.surfaceShader' % shadingGroup)
 		cmds.connectAttr( '%s.outColor'%fileNode,'%s.color' % shader )
@@ -71,14 +78,27 @@ class Shader:
 
 		return files
 
-	def iterate( self, prefix='' ):
+	def createGeometry(self,shadertype='lambert',prefix='all'):
+		'''Creates Polygonal planes from given shaders'''
+
+		if prefix == 'all':
+			targetshaders = cmds.ls( type=shadertype ) 
+		else:
+			targetshaders = [ n for n in cmds.ls( type=shadertype ) if n.startswith(prefix) ]
+
+		targetshaders.remove('lambert1')
+
+
+		return
+
+	def iterate( self, prefix='', alpha=True, shadertype='lambert' ):
 		'''Goes through the textures and applies action to each'''
 
 		if not self.textures:
 			self.gatherTextures()
 
 		for tex in self.textures:
-			self.createLambert( tex , prefix=prefix )
+			self.createShader( tex , prefix=prefix, alpha=alpha, shadertype=shadertype )
 
 	def pickPath(self):
 		'''Folder selector'''
