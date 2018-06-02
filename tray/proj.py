@@ -38,8 +38,6 @@ def loadUiType(uiFile):
 uiFile = 'testui.ui'
 pform, pbase = loadUiType(uiFile)
 
-
-
 class Tester(pform, pbase):
 	def __init__(self, parent=None):
 		super(Tester, self).__init__(parent)
@@ -50,26 +48,70 @@ class Tester(pform, pbase):
 
 		self.populateProjects()
 
-		self.projects.currentItemChanged.connect(self.desc)
+		self.projects.currentItemChanged.connect(self.projectChange)
+		self.resetProgress.clicked.connect(self.milestone)
 
 		self.setWindowIcon(QIcon(r'C:\Users\normal\Projects\util\tray\Icons\Icon.png'))
 		self.show()
 
-	def desc(self):
+	def milestone(self):
+
+		conf = os.path.join(self.rootpath,self.projects.currentItem().text(),'proj.conf')
+
+		if os.path.exists(conf):
+			with open(conf) as data:
+				rez = data.readlines()
+
+		output = []
+		for n in rez:
+			if n.startswith('steps'):
+				output.append('steps,0')
+				continue
+			output.append(n)
+		
+		with open(conf,'w') as data:
+			data.write('\n'.join(output))
+
+		self.progress.setValue(0)
+
+	def setProgress(self,num):
+
+		self.progress.setValue(num)
+
+	def projectChange(self):
 
 		things = os.path.join(self.rootpath,self.projects.currentItem().text(),'10 Things.txt')
+		conf = os.path.join(self.rootpath,self.projects.currentItem().text(),'proj.conf')
 
+		# 10 Things
 		rez = ['']
-
 		if os.path.exists(things):
 			with open(things) as data:
 				rez = data.readlines()
-
 		self.labelTest.setText(''.join(rez))
 
-	def populateProjects(self):
-		self.projects.addItems(os.listdir(self.rootpath))
+		# Configuration
+		if os.path.exists(conf):
+			with open(conf) as data:
+				rez = data.readlines()
 
+			steps = [n for n in rez if n.startswith('steps')]
+			step = int( steps[0].split(',')[-1] )
+			self.progress.setValue( step*20 )
+
+
+
+		else:
+			self.setProgress(0)
+
+	def populateProjects(self):
+
+		projects = os.listdir(self.rootpath)
+
+		self.projects.addItems( projects )
+
+		self.projects.setCurrentRow(random.randint(0,len(projects)))
+		self.projectChange()
 
 app = QApplication(sys.argv)
 t = Tester()
