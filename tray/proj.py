@@ -1,3 +1,4 @@
+#!/usr/bin/env C:\Python27\python.exe
 
 import sys
 
@@ -51,6 +52,7 @@ class Tester(pform, pbase):
 
 		self.projects.currentItemChanged.connect(self.desc)
 
+		self.setWindowIcon(QIcon(r'C:\Users\normal\Projects\util\tray\Icons\Icon.png'))
 		self.show()
 
 	def desc(self):
