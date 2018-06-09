@@ -88,7 +88,15 @@ class Tester(pform, pbase):
 		if os.path.exists(things):
 			with open(things) as data:
 				rez = data.readlines()
-		self.labelTest.setText(''.join(rez))
+		self.labelTest.setText(''.join(rez[5:]))
+		try:
+			self.mileItem1.setText(rez[0])
+			self.mileItem2.setText(rez[1])
+			self.mileItem3.setText(rez[2])
+			self.mileItem4.setText(rez[3])
+			self.mileItem5.setText(rez[4])
+		except IndexError as e:
+			print
 
 		# Configuration
 		if os.path.exists(conf):
