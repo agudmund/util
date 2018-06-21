@@ -50,11 +50,13 @@ class Tester(pform, pbase):
 
 		self.projects.currentItemChanged.connect(self.projectChange)
 		self.resetProgress.clicked.connect(self.milestone)
+		self.addstep.clicked.connect(self.clickAddStep)
 
 		self.setWindowIcon(QIcon(r'C:\Users\normal\Projects\util\tray\Icons\Icon.png'))
 		self.show()
 
 	def milestone(self):
+		'''Milestone reset the selected project'''
 
 		conf = os.path.join(self.rootpath,self.projects.currentItem().text(),'proj.conf')
 
@@ -72,16 +74,75 @@ class Tester(pform, pbase):
 		with open(conf,'w') as data:
 			data.write('\n'.join(output))
 
-		self.progress.setValue(0)
+		self.projectChange()
+
+	def readConf(self, conf):
+		if os.path.exists(conf):
+			with open(conf) as data:
+				rez = data.readlines()
+
+			steps = [n for n in rez if n.startswith('steps')]
+			step = int( steps[0].split(',')[-1] )
+
+			return step
+		else:
+			return 0
+
+	def clickAddStep(self):
+
+		conf = os.path.join(self.rootpath,self.projects.currentItem().text(),'proj.conf')
+
+		if os.path.exists(conf):
+			with open(conf) as data:
+				rez = data.readlines()
+
+			steps = [n for n in rez if n.startswith('steps')]
+			step = int( steps[0].split(',')[-1] )
+			step = step+1
+
+			if step>5:
+				step = 5
+
+			with open(conf, 'w') as data:
+				for line in rez:
+					if line.startswith('step'):
+						line = 'steps,%s'%step
+					data.write('%s\n'%line)
+
+		self.projectChange()
+
+		return True
 
 	def setProgress(self,num):
 
 		self.progress.setValue(num)
 
+	def setColors(self):
+
+		blue = QColor(0,0,255)
+		black = QColor(0,0,0)
+		orange = QColor(255,140,0)
+
+		for i in range(self.projects.count()):
+			conf = os.path.join(self.rootpath,self.projects.item(i).text(),'proj.conf')
+			step = self.readConf(conf)
+
+			if step==5:
+				self.projects.item(i).setForeground(QBrush(blue))
+			elif step==0:
+				self.projects.item(i).setForeground(QBrush(black))
+			else:
+				self.projects.item(i).setForeground(QBrush(orange))
+				
+
+		return True
+
 	def projectChange(self):
 
 		things = os.path.join(self.rootpath,self.projects.currentItem().text(),'10 Things.txt')
 		conf = os.path.join(self.rootpath,self.projects.currentItem().text(),'proj.conf')
+
+		self.setColors()
 
 		# 10 Things
 		rez = ['']
@@ -98,19 +159,8 @@ class Tester(pform, pbase):
 		except IndexError as e:
 			print
 
-		# Configuration
-		if os.path.exists(conf):
-			with open(conf) as data:
-				rez = data.readlines()
-
-			steps = [n for n in rez if n.startswith('steps')]
-			step = int( steps[0].split(',')[-1] )
-			self.progress.setValue( step*20 )
-
-
-
-		else:
-			self.setProgress(0)
+		step = self.readConf(conf)
+		self.progress.setValue( step*20 )
 
 	def populateProjects(self):
 
