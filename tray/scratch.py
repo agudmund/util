@@ -1,6 +1,9 @@
+#!/usr/bin/env C:\Python27\python.exe
+
+import sys
 from pytube import YouTube
 
-url = r'https://www.youtube.com/watch?v=iG8fDmq7e6g&index=14&list=PLjke0dIPNiMYkRybVoqtFwWPnH9WuzEMc'
+url = r'%s'%sys.argv[-1]
 video  = YouTube( url )
 
 video.streams.filter(subtype='mp4').all()[0].download()
