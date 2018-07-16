@@ -41,14 +41,14 @@ def scan_ports(host):
 
 def reverse():
     for i in xrange(1,65535):
-        print 'Port %s' % i,
+        print ('Port %s' % i,)
 
         if i in [21,22,25,443,445]: # exclude standard ports
-           print "Skipping"
+           print ("Skipping")
            continue
 
         result = requests.get("http://portquiz.net:%s" % i)
-        print result.status_code,result.reason
+        print (result.status_code,result.reason)
         if not result.reason == "OK":
             break
         time.sleep(random.randint(1,5))
