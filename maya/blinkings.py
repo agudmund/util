@@ -42,6 +42,26 @@ def pick_frame(slider=True):
 
 	return blink_frames
 
+def monicleBlink( frame, offset=0):
+	'''
+	Applies a blink to a one eyed rig
+	  : frame = frame to start the blink on
+	  : offset = value offset if the controller is larger or smaller than normal
+	'''
+
+	seed = randint(1,5)
+
+	ctrl = 	{
+			'single' : 'robot_Eye_Ctrl', # Eye Controller rotate
+			'ctrl' : 'rz' # Rotation axis
+			}
+
+	m.setKeyframe( ctrl['single'], t=frame-seed, at=ctrl['ctrl'], v=0 )
+	m.setKeyframe( ctrl['single'], t=frame, at=ctrl['ctrl'],v=-180 + offset )
+	m.setKeyframe( ctrl['single'], t=frame+seed, at=ctrl['ctrl'], v=0 )
+
+	return True
+
 def blink( frame, offset=0 ):
 	'''
 	Applies a blink to the eye controllers of a rig
@@ -75,14 +95,17 @@ def blink( frame, offset=0 ):
 
 	return True
 
-def apply_blink():
+def apply_blink(monicle=False):
 	'''
 	  Main procedure to run, collects frames and applies them to the rig
 	'''
 
 	frames = pick_frame()
 	for frame in frames:
-		blink( frame )
+		if monicle:
+			monicleBlink(frame)
+		else:
+			blink( frame )
 
 	return True
 
