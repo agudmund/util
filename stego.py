@@ -19,4 +19,4 @@ def decrypt(root_path):
 	targets=os.listdir(root_path)
 	for n in targets:
 		target=os.path.join(root_path,n)
-		print Steganography.decode(target),
+		print (Steganography.decode(target)),
