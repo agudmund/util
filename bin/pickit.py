@@ -3,4 +3,4 @@
 import os
 import random
 
-print random.choice(os.listdir(os.getcwd()))
+print (random.choice(os.listdir(os.getcwd())))
