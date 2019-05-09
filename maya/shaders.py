@@ -70,11 +70,15 @@ class Shader:
 		if not self.sourcepath:
 			self.pickPath()
 
-		for n in  os.listdir(self.sourcepath):
-			if n.endswith(filetype):
-				files.append(n)
+		for n in os.listdir(self.sourcepath):
+			try:
+				if n.endswith(filetype):
+					files.append(n)
+			except UnicodeDecodeError as e:
+				print 'skipping %s, unreadable file name ' % n
 
 		self.textures = files
+
 
 		return files
 
