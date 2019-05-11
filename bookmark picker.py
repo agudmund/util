@@ -7,32 +7,52 @@ import json
 import shutil
 import random
 import webbrowser
-import requests
-from lxml import html
+import win10toast
 import cv2
 
 # Picks out bookmarks from Chrome
+# -aeVar 2016
 
-def grab_bookmarks():
-	'''Convert the bookmark file into readable format'''
+class Bookmarks:
+	def __init__(self):
 
-	source = os.path.join(os.getenv("LOCALAPPDATA"), 'Google\\Chrome\\User Data\\Default\\Bookmarks')
-	target = os.path.join(os.getenv("TMP"),"bookmark_export")
+		self.setupEnv()		
+		self.source = os.path.join(self.appdata, self.chromeDataPath)
+		self.target = os.path.join(self.tmp,"bookmark_export")
+		self.links = self.getBookmarks()
+		self.urls = self.getUrls()
 
-	shutil.copy(source, target)
+	def setupEnv(self):
+		"""Set up environment for target files"""
+		self.appdata = os.getenv("LOCALAPPDATA")
+		self.tmp = os.getenv("TMP")
+		self.chromeDataPath = os.path.join("Google","Chrome","User Data","Default","Bookmarks")
+		self.chromePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
 
-	rez = io.open(target, 'r', encoding='utf-8')
-	bookmarks = json.loads(rez.read())
-	rez.close()
+	def getBookmarks(self):
+		"""Read the bookmarks into a dictionary"""
+		shutil.copy(self.source, self.target)
 
-	return bookmarks
+		rez = io.open(self.target, 'r', encoding='utf-8')
+		bookmarks = json.loads(rez.read())
+		rez.close()
+
+		return bookmarks
+
+	def getUrls(self):
+		"""Extracts urls from the bookmarks main bar"""
+		b = self.links['roots']['bookmark_bar']
+		return [n for n in b['children'] if n['type']=='url' if n]
+
+	def pickBookmark(self):
+		current = random.choice(b.urls)
+		bookmark = (current['name'],current['url'])
+		
+		msg = "Opening %s at path %s" % (bookmark[0], bookmark[1]) 
+		print(msg)
+		webbrowser.get("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s").open(bookmark[1])
 
 if __name__ == '__main__':
-	bookmarks = grab_bookmarks()
-	bookmark_bar = bookmarks['roots']['bookmark_bar']
-
-	urls = [n for n in bookmark_bar['children'] if n['type']=='url' if n]
-
-	current = random.choice(urls)
-	print(current['name'],current['url'])
-	webbrowser.get("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s").open(current['url'])
+	b = Bookmarks()
+	b.pickBookmark()
+	

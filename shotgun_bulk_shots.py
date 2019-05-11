@@ -59,7 +59,6 @@ def pickOne():
 
     result = sg.find("Asset", filters,['content', 'id','project','code','type'])
 
-
     rez = random.choice(result)
     print 'Still stuff to do on', rez['code'], 'in', rez['type']
 
