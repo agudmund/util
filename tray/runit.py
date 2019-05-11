@@ -1,4 +1,4 @@
-#!/usr/bin/env C:\Python27\python.exe
+#!/usr/bin/env C:/Python27/python.exe
 
 import os
 import random
