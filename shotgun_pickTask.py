@@ -1,8 +1,9 @@
+#!/usr/bin/env C:/Python27/python.exe
 
 import os
+import sys
 import random
 import json
-#import shotgun_api3 as shotgun
 
 import shotgun_api3
 
@@ -11,15 +12,8 @@ SCRIPT_USER = os.getenv("SHOTGUN_SCRIPT_USER")
 SCRIPT_KEY = os.getenv("SHOTGUN_SCRIPT_KEY")
 
 sg = shotgun_api3.Shotgun(SERVER_PATH, SCRIPT_USER, SCRIPT_KEY)
+proj = sys.argv[-1]
 
-# data = {
-#       'project': {"type":"Project","id": 89},
-#       'code': num,
-#       'description': '',
-#       'sg_status_list': 'ip'
-# }
-
-#
 
 def getProject(sg,project):
     # let's find the project
@@ -40,15 +34,13 @@ def find_asset_tasks(sg, project, asset):
     # pprint(sg_tasks)
     return sg_tasks
 
-
-
 filters = [
     ["sg_status_list", "is_not", "fin"],
     ["sg_status_list", "is_not", "hld"],
     {
         "filter_operator": "any",
         "filters": [
-        ['project.Project.name', 'is', "Match Dot Com"]
+        ['project.Project.name', 'is', proj]
             # ["assets", "is", {"type": "Asset", "id": 9}],
             # ["assets", "is", {"type": "Asset", "id": 23}]
         ]
