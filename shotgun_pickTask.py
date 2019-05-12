@@ -16,10 +16,7 @@ proj = sys.argv[-1]
 
 
 def getProject(sg,project):
-    # let's find the project
-    filters = [
-        ['name', 'is', project]
-    ]
+    filters = [['name', 'is', project]]
     fields = ['id', 'name']
     print sg.find_one('Project', filters, fields)
 
@@ -31,12 +28,13 @@ def find_asset_tasks(sg, project, asset):
         ]
     fields = ['content', 'id','name']
     sg_tasks = sg.find("Task", filters, fields)
-    # pprint(sg_tasks)
+
     return sg_tasks
 
 filters = [
     ["sg_status_list", "is_not", "fin"],
     ["sg_status_list", "is_not", "hld"],
+    ["sg_status_list", "is_not", "omt"],
     {
         "filter_operator": "any",
         "filters": [
