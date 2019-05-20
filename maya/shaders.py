@@ -62,7 +62,7 @@ class Shader:
 
 		return True
 
-	def gatherTextures(self, filetype='.tif' ):
+	def gatherTextures(self ):
 		'''Gathers textures from source path'''
 
 		files = []
@@ -72,13 +72,11 @@ class Shader:
 
 		for n in os.listdir(self.sourcepath):
 			try:
-				if n.endswith(filetype):
-					files.append(n)
+				files.append(n)
 			except UnicodeDecodeError as e:
 				print 'skipping %s, unreadable file name ' % n
 
 		self.textures = files
-
 
 		return files
 
