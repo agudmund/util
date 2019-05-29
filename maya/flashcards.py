@@ -52,7 +52,7 @@ class Create:
 
 		# Connect it all together
 		_c.send("connectAttr %s.outColor %s.color" % ( fileNode, letter ) )
-		letter_on_disk = r'"C:\\Users\\normal\\Projects\\Typing\\Unity\\Assets\\_Textures\\Alphabet\\Graham Placeholders\\%s.jpg"' % letter
+		letter_on_disk = r'"C:\\Users\\normal\\Projects\\Typing\\Unity\\Typing\\Assets\\Textures\\Alphabet\\Graham Placeholders\\%s.jpg"' % letter
 		_c.send('setAttr %s.fileTextureName -type "string" %s ' % ( fileNode, letter_on_disk ) )
 		_c.send('select %s' % OBJ)
 		_c.send('hyperShade -assign %s' % letter)
