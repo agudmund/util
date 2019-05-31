@@ -39,9 +39,9 @@ def find_asset_tasks(sg, project, asset):
 def pickOne():
 
     filters = [
-    # ["sg_status_list", "is_not", "fin"],
-    # ["sg_status_list", "is_not", "hld"],
-    # ["sg_status_list", "is_not", "omt"],
+    ["sg_status_list", "is_not", "fin"],
+    ["sg_status_list", "is_not", "hld"],
+    ["sg_status_list", "is_not", "omt"],
     {"filter_operator": "any",
         "filters": [
         ['project.Project.name', 'is', proj]
