@@ -49,9 +49,9 @@ def pickOne():
     result = sg.find("Asset", filters,['content', 'id','project','code','type'])
 
     rez = random.choice(result)
-    print ('Still stuff to do on', rez['code'], 'in', rez['type'])
+    print (" ".join(['Still stuff to do on', rez['code'], 'in', rez['type']]))
 
-def uploadThumbnails():
+def uploadAssetThumbnails():
 
     filters = [
     ["sg_status_list", "is_not", "fin"],
@@ -76,6 +76,26 @@ def uploadThumbnails():
                 sg.upload_thumbnail('Asset',asset['id'] , thumb ) # Needs python 3 apparently
                 continue
 
+def createShots():
+	root = r'C:\Users\normal\Projects\Darth Kindergarten\Maya\images\shots'
+	for shot in os.listdir(root):
+		filters = {
+	    'project': {"type":"Project","id": "insert project id"},
+	    'code': shot.split(".")[0],
+	    'sg_status_list': 'ip'
+		}
+		result = sg.create('Shot', data)
+		
+		filters = [
+		    {"filter_operator": "any",
+		        "filters": [
+		        ['project.Project.name', 'is', "insert project name"]
+		        ]}]		
+		result = sg.find('Shot', filters, ['id','code'])
+		for r in result:
+			if r['code'] == shot.split('.')[0]:
+				sg.upload_thumbnail('Shot',r['id'] , os.path.join(root,shot) )
+
 if __name__ == '__main__':
     pickOne()
     
@@ -92,8 +112,3 @@ if __name__ == '__main__':
 #                  ['sg_status_list', 'is_not', 'na']],
 #               summary_fields=[{'field': 'id', 'type': 'count'}, {'field': 'due_date', 'type': 'latest'}],
 #               grouping=[{'field': 'entity', 'type': 'exact', 'direction': 'asc'}])
-
-
-# filters = [['id', 'is', 89]]
-# result = sg.find_one('Project', filters)
-# print (result)
