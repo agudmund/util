@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!C:\Program Files\Python36\python
 
 import os
 import random
