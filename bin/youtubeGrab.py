@@ -14,4 +14,8 @@ for n in rez:
 		if(len(n.resolution))>4:
 			itagz = n.itag
 			break
-video.streams.filter(subtype='mp4' ).get_by_itag(itagz).download(output_path=r'C:\Users\normal\Downloads')
+try:
+	video.streams.filter(subtype='mp4' ).get_by_itag(itagz).download(output_path=r'C:\Users\normal\Downloads')
+except NameError as e:
+	print("\n\t--> Could not find higher rez, sorry!\n")
+	video.streams.filter(subtype='mp4' ).all()[0].download(output_path=r'C:\Users\normal\Downloads')
