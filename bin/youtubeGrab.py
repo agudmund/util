@@ -3,9 +3,6 @@
 import sys
 from pytube import YouTube
 
-#url = r'%s'%sys.argv[-1]
-#video  = YouTube( url )
-
 class Thingie:
 	def __init__(self):
 		self.url = r'%s'%sys.argv[-1]
