@@ -3,19 +3,43 @@
 import sys
 from pytube import YouTube
 
-url = r'%s'%sys.argv[-1]
-video  = YouTube( url )
+#url = r'%s'%sys.argv[-1]
+#video  = YouTube( url )
 
+class Thingie:
+	def __init__(self):
+		self.url = r'%s'%sys.argv[-1]
+		self.video = YouTube( self.url )
+		self.streams = self.get_streams()
+		self.output_path=r'C:\Users\normal\Downloads'
+		self.itag = self
 
-rez = video.streams.filter(subtype='mp4')
+	def get_streams(self):
+		'''Just return a list of what is available'''
+		rez = self.video.streams.filter(subtype='mp4')
 
-for n in rez:
-	if n.type == 'video':
-		if(len(n.resolution))>4:
-			itagz = n.itag
-			break
-try:
-	video.streams.filter(subtype='mp4' ).get_by_itag(itagz).download(output_path=r'C:\Users\normal\Downloads')
-except NameError as e:
-	print("\n\t--> Could not find higher rez, sorry!\n")
-	video.streams.filter(subtype='mp4' ).all()[0].download(output_path=r'C:\Users\normal\Downloads')
+		thongs = []
+
+		for item in rez:
+			if item.type == 'audio':
+				continue
+			if item.type == 'video':
+				if(len(item.resolution))>4:
+					if item.video_codec.startswith('avc1'):
+						thongs.append(item)
+						#itagz = n.itag
+						continue
+
+		return thongs
+
+if __name__ == '__main__':
+	thing = Thingie()
+	print('yay!')
+
+	try:
+		thing.video.streams.filter(subtype='mp4' ).get_by_itag(thing.streams[0].itag).download(output_path=r'C:\Users\normal\Downloads')
+	except NameError as e:
+		print("\n\t--> Could not find higher rez, sorry!\n")
+		thing.video.streams.filter(subtype='mp4' )[0].download()
+
+	print('Your video is here: %s ' % thing.output_path )
