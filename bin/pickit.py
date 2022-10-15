@@ -1,4 +1,4 @@
-#!C:\Program Files\Python36\python
+#!/usr/bin/env python
 
 import os
 import sys
