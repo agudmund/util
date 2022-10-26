@@ -5,6 +5,13 @@ import sys
 import pymiere
 from pymiere.wrappers import time_from_seconds,edit_clip,time_from_seconds  
 
+parser = argparse.ArgumentParser()
+parser.add_argument("input", help="thingy")
+parser.add_argument("-w", "--withoptions", action = "store_true",
+                    help="thingy to set multi statement thingy")
+args = parser.parse_args()
+inpfn = args.input
+
 #-- Target bin
 
 class Thingaling:
