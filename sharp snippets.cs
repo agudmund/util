@@ -28,7 +28,15 @@ using MongoDB.Driver.Linq;
             itemcount1.text = query15["cubes"].ToString();
         }
 
-        
+            // IEnumerator Talkative(){
+    //     var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ko&dt=t&q=this";
+    //     var webRequest = UnityWebRequest.Get(url);
+    //     yield return webRequest.SendWebRequest();
+
+    //     string x = webRequest.downloadHandler.text.Split(",")[0].Split("\"")[1];
+    //     print(x);
+    //     workLabel.text = x;
+    // }
 
        
         foreach (var document in playercollection.Find(new QueryDocument("name", "Fobi")))
