@@ -18,7 +18,6 @@ public class GameController : MonoBehaviour
         SetupPlayers(Random.Range(500,900));
     }
 
-
     IEnumerator GetRequest(string uri)
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
