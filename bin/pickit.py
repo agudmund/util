@@ -34,6 +34,7 @@ if __name__ == '__main__':
 			data.write('%s\n'%n)
 
 	print(candidate)
+	os.system('explorer %s' % candidate)
 
 	if len(c)==len(exclude):
 		os.remove(exclude_path)
