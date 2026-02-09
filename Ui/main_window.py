@@ -12,31 +12,17 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap, QFont
 
 
-class PuppetApp(QMainWindow):
+class FabricIdentifier(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Puppet Parts Swapper")
+        self.setWindowTitle("Fabric Identifier")
         self.resize(600, 500)
 
-        # Central widget that holds stacked pages
+        # # Central widget that holds stacked pages
         self.stack = QStackedWidget()
         self.setCentralWidget(self.stack)
 
-        # Page 1: welcome / start screen
-        self.page_start = QWidget()
-        layout_start = QVBoxLayout(self.page_start)
-        layout_start.setContentsMargins(60, 60, 60, 60)
-        layout_start.setSpacing(30)
-
-        btn = QPushButton("Start → Open Canvas")
-        btn.setFixedHeight(70)
-        btn.setFont(QFont("Segoe UI", 14, QFont.Weight.Bold))
-        btn.clicked.connect(self.show_canvas)
-        layout_start.addWidget(btn, alignment=Qt.AlignmentFlag.AlignCenter)
-
-        layout_start.addStretch()
-
-        # Page 2: the "blank" canvas area (we'll put preview here later)
+        # The "blank" canvas area (we'll put preview here later)
         self.page_canvas = QWidget()
         layout_canvas = QVBoxLayout(self.page_canvas)
         layout_canvas.setContentsMargins(20, 20, 20, 20)
@@ -47,12 +33,8 @@ class PuppetApp(QMainWindow):
         self.placeholder_label.setStyleSheet("font-size: 24px; color: #888;")
         layout_canvas.addWidget(self.placeholder_label)
 
-        # Add both pages to stack
-        self.stack.addWidget(self.page_start)
+        # Add Pages to stack
         self.stack.addWidget(self.page_canvas)
-
-        # Start on welcome page
-        self.stack.setCurrentWidget(self.page_start)
 
     def show_canvas(self):
         self.stack.setCurrentWidget(self.page_canvas)
@@ -61,7 +43,7 @@ class PuppetApp(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    app.setStyle("Fusion")          # clean modern base style
-    window = PuppetApp()
+    app.setStyle("Fusion")
+    window = FabricIdentifier()
     window.show()
     sys.exit(app.exec())
