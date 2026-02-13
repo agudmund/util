@@ -1,0 +1,9 @@
+dotnet workload repair
+dotnet workload update
+dotnet new maui -n CuddlyGoesToMaui
+dotnet build
+dotnet run --framework net10.0-windows
+
+dotnet watch run --framework net10.0-windows
+
+dotnet workload clean 
