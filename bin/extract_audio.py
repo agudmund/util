@@ -1,19 +1,26 @@
+#!/usr/bin/env python
+#! *-* coding:utf-8 *-*
 # extract_audio_wav_ffmpeg_parallel.py
+#
+# Created using a single shared braincell by Yours Truly and Grok ( February 2026)
+
 import sys
 from pathlib import Path
 import subprocess
 import concurrent.futures
 import os
 import datetime
+
 try:
     from tqdm import tqdm
     HAS_TQDM = True
 except ImportError:
     HAS_TQDM = False
     def tqdm(iterable, *args, **kwargs):
-        return iterable  # fallback no-op
+        return iterable
 
 # ==================== CONFIG ====================
+
 VIDEO_EXTS = {
     '.mp4', '.mkv', '.mov', '.avi', '.webm',
     '.flv', '.wmv', '.mpeg', '.mpg', '.m4v',
@@ -25,14 +32,15 @@ VIDEO_EXTS = {
 }
 
 RECURSIVE = True
-MAX_WORKERS = min(8, os.cpu_count() or 4)  # tune if needed
+MAX_WORKERS = min(8, os.cpu_count() or 4)
 
 FALLBACK_SAMPLE_RATE = "44100"
 FALLBACK_CHANNELS = "2"
 
 COLLECT_IN_SUBFOLDER = True
-SUBFOLDER_NAME = "Extracted Audio"
-MOVE_OR_COPY = "move"  # "move" or "copy"
+SUBFOLDER_NAME = "Audio Samples"
+MOVE_OR_COPY = "move"
+
 # ================================================
 
 def get_audio_info(video_path: Path) -> tuple[str | None, str | None]:
